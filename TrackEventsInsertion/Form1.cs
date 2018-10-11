@@ -32,20 +32,38 @@ namespace TrackEventsInsertion
 
             }
         }
+        public bool run = false;
 
-    private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            for (int i = 4; i < 10; i++)
-            {
+            run = true;
+        startinsertion();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            run = false;
+        }
+
+        
+
+        public async void startinsertion()
+        {
+            int count = 0;
+            
+            while (run.Equals(true))
+            {               
                 var trackEvent = new TrackEvent
                 {
-                    Localitykey = "CONNECTION OK",
-                    Objectkey = "S00"
+                    Localitykey = "AUH",
+                    Objectkey = "S800"
                 };
-                FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + i, trackEvent);
-                TrackEvent result = response.ResultAs<TrackEvent>(); 
-                Thread.Sleep(1000);
+                FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" +count, trackEvent);
+                TrackEvent result = response.ResultAs<TrackEvent>();
+                Thread.Sleep(2000);
+                count++;
             }
-    }
+        }
+
     }
 }
