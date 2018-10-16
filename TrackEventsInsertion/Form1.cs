@@ -35,24 +35,80 @@ namespace TrackEventsInsertion
             }
         }
 
-        public bool run = false;
+        //public bool run = false;
 
         private void button1_Click(object sender, EventArgs e)
         {
-            run = true;
-            startinsertion();
+            //run = true;
+            start200insertion();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            run = false;
+            //run = false;
+            startMinuteInsertion();
+        }
+
+        int count = 0;
+        private string trackGLN;
+        public async void insertPerId()
+        {
+            string path1 = @"C:\Users\rikke\Dropbox\Bachelorprojekt\Data\rapport21.csv";
+            using (TextFieldParser csvParser = new TextFieldParser(path1))
+            {
+                csvParser.CommentTokens = new string[] {"#"};
+                csvParser.SetDelimiters(new string[] {";"});
+                csvParser.HasFieldsEnclosedInQuotes = true;
+                csvParser.ReadLine();
+                for (int i = 0; i < 100; i++)
+                {
+                    string[] fields = csvParser.ReadFields();
+
+                    var trackEvent = new TrackEvent
+                    {
+                        localitykey = fields[0],
+                        objectkey = fields[1],
+                        eventTime = fields[2],
+                        latitude = fields[3],
+                        longitude = fields[4],
+                        floor = fields[5],
+                        distanceMtr = fields[6],
+                        distanceFloor = fields[7],
+                        durationSec = fields[8],
+                        locationSgln = fields[9],
+                        comments = fields[10]
+                    };
+
+                    trackGLN = trackEvent.locationSgln.Replace(".", "-");
+
+                    FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + trackEvent.objectkey+"/"+trackEvent.eventTime+"/"+trackGLN, trackEvent);
+                    
+                    
+                    TrackEvent result = response.ResultAs<TrackEvent>();
+                }
+            }
         }
 
 
 
-        public async void startinsertion()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public async void start200insertion()
         {
-            int count = 0;
+            
             string path = @"C:\Users\rikke\Dropbox\Bachelorprojekt\Data\rapport2.csv";
             using (TextFieldParser csvParser = new TextFieldParser(path))
             {
@@ -60,66 +116,86 @@ namespace TrackEventsInsertion
                 csvParser.SetDelimiters(new string[] { ";" });
                 csvParser.HasFieldsEnclosedInQuotes = true;
                 csvParser.ReadLine();
-                while (run.Equals(true))
-                {
-
+                
                     //    while (!csvParser.EndOfData&& run.Equals(true))
-                    //{
-                    // Skip the row with the column names
-
+               
                     // Read current line fields, pointer moves to the next line.
-                    for (int i = 0; i < 10; i++)
-                    {
-                    
+                    for (int i = 0; i < 199; i++)
+                    {                   
                         string[] fields = csvParser.ReadFields();
 
                         var trackEvent = new TrackEvent
                         {
-                            Localitykey = fields[0],
-                            Objectkey = fields[1],
-                            EventTime = fields[2],
-                            Latitude = fields[3],
-                            Longitude = fields[4],
-                            Floor = fields[5],
-                            DistanceMtr = fields[6],
-                            DistanceFloor = fields[7],
-                            DurationSec = fields[8],
-                            LocationSGLN = fields[9],
-                            Comments = fields[10]
+                            localitykey = fields[0],
+                            objectkey = fields[1],
+                            eventTime = fields[2],
+                            latitude = fields[3],
+                            longitude = fields[4],
+                            floor = fields[5],
+                            distanceMtr = fields[6],
+                            distanceFloor = fields[7],
+                            durationSec = fields[8],
+                            locationSgln = fields[9],
+                            comments = fields[10]
                         };
 
-                        FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + i, trackEvent);
-                        TrackEvent result = response.ResultAs<TrackEvent>();
-                        Thread.Sleep(2000);
-                       
-                            //}
-                            //string[] fields = csvParser.ReadFields();
-
-                            //var trackEvent = new TrackEvent
-                            //{
-                            //    Localitykey = fields[0],
-                            //    Objectkey = fields[1],
-                            //    EventTime = fields[2],
-                            //    Latitude = fields[3],
-                            //    Longitude = fields[4],
-                            //    Floor = fields[5],
-                            //    DistanceMtr = fields[6],
-                            //    DistanceFloor = fields[7],
-                            //    DurationSec = fields[8],
-                            //    LocationSGLN = fields[9],
-                            //    Comments = fields[10]
-                            //};
-
-                            //FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + count, trackEvent);
-                            //TrackEvent result = response.ResultAs<TrackEvent>();
-                            //Thread.Sleep(2000);
-                            //count++;
+                        FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + count, trackEvent);
+                        count++;
+                        TrackEvent result = response.ResultAs<TrackEvent>();                        
                             }
                         }
                 
                 
             }
+        public async void startMinuteInsertion()
+        {
+            
+            string path = @"C:\Users\rikke\Dropbox\Bachelorprojekt\Data\rapport2.csv";
+            using (TextFieldParser csvParser = new TextFieldParser(path))
+            {
+                csvParser.CommentTokens = new string[] { "#" };
+                csvParser.SetDelimiters(new string[] { ";" });
+                csvParser.HasFieldsEnclosedInQuotes = true;
+                csvParser.ReadLine();
+
+                //    while (!csvParser.EndOfData&& run.Equals(true))
+
+                // Read current line fields, pointer moves to the next line.
+                for (int i = 0; i < 100; i++)
+                {
+                    string[] fields = csvParser.ReadFields();
+
+                    var trackEvent = new TrackEvent
+                    {
+                        localitykey = fields[0],
+                        objectkey = fields[1],
+                        eventTime = fields[2],
+                        latitude = fields[3],
+                        longitude = fields[4],
+                        floor = fields[5],
+                        distanceMtr = fields[6],
+                        distanceFloor = fields[7],
+                        durationSec = fields[8],
+                        locationSgln = fields[9],
+                        comments = fields[10]
+                    };
+
+                    FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + count, trackEvent);
+                    TrackEvent result = response.ResultAs<TrackEvent>();
+                    count++;
+                    Thread.Sleep(1000);
+                }
+            }
+
+
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            insertPerId();
+        }
     }
-}
+
+
+    }
+
