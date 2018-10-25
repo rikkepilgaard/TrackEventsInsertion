@@ -53,7 +53,7 @@ namespace TrackEventsInsertion
         private string trackGLN;
         public async void insertPerId()
         {
-            string path1 = @"C:\Users\rikke\Dropbox\Bachelorprojekt\Data\rapport21.csv";
+            string path1 = @"C:\Users\rikke\Dropbox\Bachelorprojekt\Data\rapport2.csv";
             using (TextFieldParser csvParser = new TextFieldParser(path1))
             {
                 csvParser.CommentTokens = new string[] {"#"};
@@ -79,9 +79,9 @@ namespace TrackEventsInsertion
                         comments = fields[10]
                     };
 
-                    trackGLN = trackEvent.locationSgln.Replace(".", "-");
+            
 
-                    FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + trackEvent.objectkey+"/"+trackEvent.eventTime+"/"+trackGLN, trackEvent);
+                    FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + trackEvent.objectkey+"/"+trackEvent.eventTime, trackEvent);
                     
                     
                     TrackEvent result = response.ResultAs<TrackEvent>();
@@ -104,7 +104,7 @@ namespace TrackEventsInsertion
 
 
 
-
+        
 
         public async void start200insertion()
         {
@@ -116,15 +116,19 @@ namespace TrackEventsInsertion
                 csvParser.SetDelimiters(new string[] { ";" });
                 csvParser.HasFieldsEnclosedInQuotes = true;
                 csvParser.ReadLine();
-                
+               
                     //    while (!csvParser.EndOfData&& run.Equals(true))
                
                     // Read current line fields, pointer moves to the next line.
-                    for (int i = 0; i < 199; i++)
-                    {                   
-                        string[] fields = csvParser.ReadFields();
-
-                        var trackEvent = new TrackEvent
+                for (int i = 0; i < 1501; i++)
+                {
+                    string[] fields = csvParser.ReadFields();
+                }
+                for (int i = 0; i < 1001; i++)
+                {
+                    string[] fields = csvParser.ReadFields();
+                
+                var trackEvent = new TrackEvent
                         {
                             localitykey = fields[0],
                             objectkey = fields[1],
@@ -139,8 +143,10 @@ namespace TrackEventsInsertion
                             comments = fields[10]
                         };
 
-                        FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + count, trackEvent);
-                        count++;
+                        
+
+                        FirebaseResponse response = await client.SetTaskAsync("TrackEvents/" + trackEvent.objectkey + "/" + trackEvent.eventTime, trackEvent);
+
                         TrackEvent result = response.ResultAs<TrackEvent>();                        
                             }
                         }
