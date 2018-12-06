@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FireSharp.Config;
-using FireSharp.Exceptions;
 using FireSharp.Interfaces;
 using FireSharp.Response;
-using Microsoft.VisualBasic.ApplicationServices;
 using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
 
@@ -126,11 +117,11 @@ namespace TrackEventsInsertion
             }
         }
 
-        
+        private int count;
             
         public async void startContinousInsertion()
         {
-        int count = 201;
+        count = 400;
         string path = @"C:\Users\rikke\Dropbox\Bachelorprojekt\Data\rapport2.csv";
             using (TextFieldParser csvParser = new TextFieldParser(path))
             {
@@ -173,7 +164,7 @@ namespace TrackEventsInsertion
 
                     foreach (var var in array)
                     {
-                        String time = var.Name;
+                        String time = var.Name; //var.Name is a timestamp
                         timestamp.Add(time);
 
                     }
@@ -197,16 +188,17 @@ namespace TrackEventsInsertion
                     FirebaseResponse response = await client.SetTaskAsync(
                         "TrackEvents/" + trackEvent.objectkey + "/" + trackEvent.eventTime, trackEvent);
                 }
+                    
             }
             }
 
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void stopinsertionBt_Click(object sender, EventArgs e)
         {
             run = false;
-            
+
         }
     }
 

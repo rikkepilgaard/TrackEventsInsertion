@@ -30,7 +30,7 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.stopinsertionBt = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -53,23 +53,23 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button3
+            // stopinsertionBt
             // 
-            this.button3.BackColor = System.Drawing.Color.Salmon;
-            this.button3.Location = new System.Drawing.Point(319, 90);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(239, 36);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Stop insertion";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.stopinsertionBt.BackColor = System.Drawing.Color.Salmon;
+            this.stopinsertionBt.Location = new System.Drawing.Point(319, 90);
+            this.stopinsertionBt.Name = "stopinsertionBt";
+            this.stopinsertionBt.Size = new System.Drawing.Size(239, 36);
+            this.stopinsertionBt.TabIndex = 3;
+            this.stopinsertionBt.Text = "Stop insertion";
+            this.stopinsertionBt.UseVisualStyleBackColor = false;
+            this.stopinsertionBt.Click += new System.EventHandler(this.stopinsertionBt_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(572, 160);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.stopinsertionBt);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
@@ -82,7 +82,7 @@
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button stopinsertionBt;
     }
 }
 
